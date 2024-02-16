@@ -12,6 +12,7 @@ class Field:
 class Name(Field):
     pass
 
+# Перевірка на коректність формату номера телефону
 class Phone(Field):
     def __init__(self, value):
         if not re.match(r'^\d{10}$', value):
@@ -23,18 +24,21 @@ class Record:
         self.name = Name(name)
         self.phones = []
 
+    # Додавання номера телефону до списку
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
 
+    # Видалення номера телефону зі списку
     def remove_phone(self, phone):
         self.phones = [p for p in self.phones if p.value != phone]
 
+    # Редагування номера телефону у списку
     def edit_phone(self, old_phone, new_phone):
         for p in self.phones:
             if p.value == old_phone:
                 p.value = new_phone
                 break
-
+    # Пошук номера телефону у списку
     def find_phone(self, phone):
         return [p for p in self.phones if p.value == phone]
 
@@ -42,16 +46,22 @@ class Record:
         return f"Contact name: {self.name.value}, phones: {'; '.join(str(p) for p in self.phones)}"
 
 class AddressBook(UserDict):
+     # Додавання запису до адресної книги
     def add_record(self, record):
         self.data[record.name.value] = record
 
+    # Пошук запису за ім'ям
     def find(self, name):
         return self.data.get(name)
-
+    
+    # Видалення запису за ім'ям
     def delete(self, name):
         if name in self.data:
             del self.data[name]
 
+
+#Тестування по інструкції#
+            
 # Створення нової адресної книги
 book = AddressBook()
 
